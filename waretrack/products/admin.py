@@ -1,6 +1,6 @@
 from django.contrib import admin
+
 from waretrack.products.models import Product
-# Register your models here.
 
 
 @admin.register(Product)

@@ -1,4 +1,5 @@
 from django.db import models
+
 from waretrack.products.services.generate_sku import generate_sku
 
 
@@ -6,7 +7,9 @@ class Product(models.Model):
 
     SKU_LENGTH = 8
 
-    sku = models.CharField(max_length=SKU_LENGTH, unique=True, db_index=True, blank=True, null=True)
+    sku = models.CharField(
+        max_length=SKU_LENGTH, unique=True, db_index=True, blank=True, null=True
+    )
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
