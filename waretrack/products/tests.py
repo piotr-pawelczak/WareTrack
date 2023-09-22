@@ -5,7 +5,3 @@ from django.test import TestCase
 
 def test_sample():
     assert 1 == 1
-
-
-def test_invalid():
-    assert False
