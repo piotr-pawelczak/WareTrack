@@ -1,6 +1,7 @@
-from waretrack.products.serializers import ProductSerializer
-from waretrack.products.models import Product
 from rest_framework import permissions, viewsets
+
+from waretrack.products.models import Product
+from waretrack.products.serializers import ProductSerializer
 
 
 class ProductViewSet(viewsets.ModelViewSet):
