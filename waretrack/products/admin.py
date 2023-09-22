@@ -5,4 +5,4 @@ from waretrack.products.models import Product
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ['sku',]
