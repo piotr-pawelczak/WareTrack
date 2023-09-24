@@ -4,6 +4,9 @@ from waretrack.products.models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
+
+    created_at = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
         fields = [
@@ -17,3 +20,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "is_active",
         ]
         read_only_fields = ["id", "sku", "created_at"]
+
+    def get_created_at(self, obj):
+        return obj.created_at.strftime("%Y-%m-%d %H:%M")
