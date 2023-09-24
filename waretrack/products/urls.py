@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from waretrack.products.views import ProductViewSet
 
-appname = 'products'
+appname = "products"
 
 router = routers.SimpleRouter()
 router.register(r"products", ProductViewSet)
