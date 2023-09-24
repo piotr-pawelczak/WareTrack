@@ -1,10 +1,12 @@
 from rest_framework import permissions, viewsets
 
 from waretrack.products.models import Brand, Category, Product
-from waretrack.products.serializers import (BrandSerializer,
-                                            CategorySerializer,
-                                            ProductCreateSerializer,
-                                            ProductSerializer)
+from waretrack.products.serializers import (
+    BrandSerializer,
+    CategorySerializer,
+    ProductCreateSerializer,
+    ProductSerializer,
+)
 
 
 class ProductViewSet(viewsets.ModelViewSet):

@@ -1,8 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from waretrack.products.views import (BrandViewSet, CategoryViewSet,
-                                      ProductViewSet)
+from waretrack.products.views import BrandViewSet, CategoryViewSet, ProductViewSet
 
 appname = "products"
 
