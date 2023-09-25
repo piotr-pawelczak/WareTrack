@@ -3,32 +3,31 @@ from decimal import Decimal
 
 import pytest
 
-from waretrack.products.serializers import ProductSerializer
+from waretrack.products.serializers import (
+    BrandSerializer,
+    CategorySerializer,
+    ProductCreateSerializer,
+    ProductSerializer,
+)
 from waretrack.products.tests.factories import ProductFactory
 
 
 @pytest.mark.django_db
 class TestProductSerializer:
-    def setup_class(self):
-        self.valid_data = {
-            "name": "Test Product",
-            "description": "Test Product description",
-            "price": "100.00",
-            "weight": "10.4",
-        }
-
-    def test_valid_data(self):
+    def test_valid_data(self, product_payload):
         # Given
-        serializer = ProductSerializer(data=self.valid_data)
+        serializer = ProductCreateSerializer(data=product_payload)
         assert serializer.is_valid()
         # When
         product = serializer.save()
         # Then
-        assert product.name == "Test Product"
-        assert product.description == "Test Product description"
-        assert product.price == Decimal("100.00")
-        assert product.weight == Decimal("10.4")
+        assert product.name == product_payload["name"]
+        assert product.description == product_payload["description"]
+        assert product.price == Decimal(product_payload["price"])
+        assert product.weight == Decimal(product_payload["weight"])
         assert product.is_active
+        assert product.category.pk == product_payload["category"]
+        assert product.brand.pk == product_payload["brand"]
         assert isinstance(product.sku, str)
 
     def test_empty_data(self):
@@ -39,21 +38,19 @@ class TestProductSerializer:
         # Then
         assert not serializer.is_valid()
 
-    def test_invalid_price(self):
+    def test_invalid_price(self, product_payload):
         # Given
-        invalid_price_data = self.valid_data
-        invalid_price_data["price"] = "-10.00"
+        product_payload["price"] = "-10.00"
         # When
-        serializer = ProductSerializer(data=invalid_price_data)
+        serializer = ProductSerializer(data=product_payload)
         # Then
         assert not serializer.is_valid()
 
-    def test_invalid_weight(self):
+    def test_invalid_weight(self, product_payload):
         # Given
-        invalid_weight_data = self.valid_data
-        invalid_weight_data["weight"] = "-10.00"
+        product_payload["weight"] = "-10.00"
         # When
-        serializer = ProductSerializer(data=invalid_weight_data)
+        serializer = ProductSerializer(data=product_payload)
         # Then
         assert not serializer.is_valid()
 
@@ -70,6 +67,8 @@ class TestProductSerializer:
         assert data["id"] == product.id
         assert data["sku"] == product.sku
         assert data["created_at"] == "2023-02-20 13:30"
+        assert data["category"] == CategorySerializer(product.category).data
+        assert data["brand"] == BrandSerializer(product.brand).data
 
     def test_deserialize_multiple_instances(self):
         # Given

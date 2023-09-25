@@ -7,3 +7,5 @@ pytest-html==4.0.2
 djangorestframework~=3.14.0
 pytest-factoryboy==2.5.1
 factory-boy==3.3.0
+drf-spectacular==0.26.5
+django-mptt==0.14.0
