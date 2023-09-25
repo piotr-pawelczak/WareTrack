@@ -50,3 +50,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         allow_null=True,
         required=False,
     )
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation["pk"] = instance.pk
+        return representation

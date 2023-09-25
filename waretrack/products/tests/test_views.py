@@ -82,3 +82,17 @@ class TestProductViewSet:
         # Then
         assert response.status_code == 400
         assert not Product.objects.count()
+
+    def test_create_allow_empty_category(self, api_client, product_payload):
+        # Given
+        url = "/api/products/"
+        product_payload["category"] = ""
+        assert Product.objects.count() == 0
+        # When
+        response = api_client.post(url, product_payload)
+        product_pk = response.json()["pk"]
+        product = Product.objects.get(pk=product_pk)
+        # Then
+        assert response.status_code == 201
+        assert Product.objects.count() == 1
+        assert product.category is None
