@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # Internal apps
     "waretrack.products",
     "waretrack.accounts",
+    "waretrack.locations",
 ]
 
 MIDDLEWARE = [
