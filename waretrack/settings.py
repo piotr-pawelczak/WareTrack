@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # External apps
     "rest_framework",
     "drf_spectacular",
+    "django_extensions",
     # Internal apps
     "waretrack.products",
     "waretrack.accounts",
@@ -129,3 +130,5 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "WareTrack API documentation",
 }
+
+SHELL_PLUS = "bpython"
