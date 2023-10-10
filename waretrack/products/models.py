@@ -26,11 +26,15 @@ class Category(MPTTModel):
         return self.name
 
 
-class Product(models.Model):
-    SKU_LENGTH = 8
+class ProductManager(models.Manager):
+    def create(self, **product_data):
+        product_data["sku"] = generate_sku(length=8)
+        return super().create(**product_data)
 
+
+class Product(models.Model):
     sku = models.CharField(
-        max_length=SKU_LENGTH, unique=True, db_index=True, blank=True, null=True
+        max_length=8, unique=True, db_index=True, blank=True, null=True
     )
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
@@ -48,13 +52,10 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+    objects = ProductManager()
+
     class Meta:
         ordering = ["-created_at"]
 
     def __str__(self):
         return f"{self.sku} - {self.name}"
-
-    def save(self, *args, **kwargs):
-        if not self.sku:
-            self.sku = generate_sku(self.SKU_LENGTH)
-        super().save(*args, **kwargs)

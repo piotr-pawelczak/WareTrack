@@ -1,6 +1,8 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from waretrack.locations.managers import LocationManager, ShelfManager
+
 
 class Warehouse(models.Model):
     class WarehouseType(models.IntegerChoices):
@@ -35,16 +37,13 @@ class Shelf(models.Model):
     name = models.CharField(unique=True, max_length=50, blank=True)
     is_active = models.BooleanField(default=True)
 
+    objects = ShelfManager()
+
     class Meta:
         verbose_name_plural = "shelves"
 
     def __str__(self) -> str:
         return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.name:
-            self.name = f"{self.warehouse.symbol}-{self.label}"
-        super(Shelf, self).save(*args, **kwargs)
 
 
 class Location(models.Model):
@@ -60,10 +59,7 @@ class Location(models.Model):
     )
     is_active = models.BooleanField(default=True)
 
+    objects = LocationManager()
+
     def __str__(self) -> str:
         return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.name:
-            self.name = f"{self.shelf.name}-{self.column_index}-{self.level_index}"
-        super(Location, self).save(*args, **kwargs)
