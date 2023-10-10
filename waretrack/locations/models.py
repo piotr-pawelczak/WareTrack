@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator
-from waretrack.locations.managers import ShelfManager, LocationManager
 from django.db import models
+
+from waretrack.locations.managers import LocationManager, ShelfManager
 
 
 class Warehouse(models.Model):
